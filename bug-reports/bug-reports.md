@@ -1,34 +1,38 @@
-# Bug Reports — Templates and Examples
+# Bug Reports
 
-This document provides a reporting template and hypothetical examples for practice. **The examples below are not confirmed defects in JSONPlaceholder.** Do not report them as real findings without reproducing them.
+## Purpose
 
-## Bug report template
+This document defines the bug-report format used for issues discovered during API testing.
 
-- **ID:** BUG-XXX
-- **Title:** `[Component] Short description of the issue`
-- **Environment:** OS, browser/client, build/version
-- **Preconditions:** State required before testing
-- **Steps to reproduce:**
-  1. Step one
-  2. Step two
-- **Actual result:** What happened
-- **Expected result:** What should happen
-- **Severity:** Critical / Major / Moderate / Minor / Trivial
-- **Priority:** P1 / P2 / P3 / P4
-- **Attachments:** Screenshot, request/response, logs
+No confirmed defects are currently documented for this project. JSONPlaceholder is a public mock API, and the current test run completed successfully according to the project author. Do not report hypothetical examples as real defects.
 
-## Hypothetical example
+## Bug Report Template
 
-**Title:** `[Posts API] Response returns a string instead of a numeric ID`
+| Field | Description |
+|---|---|
+| Bug ID | Unique identifier, e.g. `BUG-API-001` |
+| Title | Concise summary of the issue |
+| Environment | API URL, tool/version, and relevant setup |
+| Preconditions | Conditions required to reproduce the issue |
+| Steps to Reproduce | Numbered, repeatable steps |
+| Actual Result | What happened |
+| Expected Result | What should have happened |
+| Severity | Impact on functionality or data |
+| Priority | How urgently the issue should be fixed |
+| Attachments | Request/response details, screenshots, logs |
 
-- **Environment:** API client, test environment
-- **Preconditions:** A post exists
-- **Steps to reproduce:**
-  1. Send `GET /posts/1`.
-  2. Inspect the type of the `id` field.
-- **Actual result:** Hypothetical: `id` is returned as a string.
-- **Expected result:** `id` is returned as a number, according to the API contract.
-- **Severity:** Moderate, if the consumer contract requires a numeric ID.
-- **Priority:** To be assigned based on product impact and release context.
+## Example Format (Not a Real Defect)
 
-This is a training example only. The actual API response must be checked before filing a defect.
+The following is a format example only. It is not a confirmed issue and must not be presented as a real bug.
+
+- **Bug ID:** `BUG-API-EXAMPLE`
+- **Title:** `[Example] API returns an unexpected status code`
+- **Environment:** Test environment
+- **Preconditions:** API is available
+- **Steps to Reproduce:**
+  1. Send the request under investigation.
+  2. Inspect the HTTP status code and response body.
+- **Actual Result:** Replace with the observed result.
+- **Expected Result:** Replace with the result required by the API specification.
+- **Severity:** To be assessed
+- **Priority:** To be assessed

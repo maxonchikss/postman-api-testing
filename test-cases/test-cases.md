@@ -1,21 +1,45 @@
-# Test Cases — JSONPlaceholder API
+# Test Cases
 
+**Project:** JSONPlaceholder API Testing  
 **Environment:** `https://jsonplaceholder.typicode.com`  
-**Format:** REST API / JSON  
-**Note:** Expected results describe the behavior currently provided by this demo API.
+**Tool:** Postman  
+**Test data:** Public mock API data
 
-| ID | Title | Preconditions | Steps / Test data | Expected result |
+## Execution Summary
+
+The project author reported a successful local collection run: **15 passed, 0 failed**. Re-run the collection before relying on this result after any changes.
+
+## Test Cases
+
+| ID | Scenario | Preconditions | Steps | Expected Result |
 |---|---|---|---|---|
-| TC-001 | Get an existing post | API is reachable | Send `GET /posts/1` | `200 OK`; response is JSON object with `userId`, `id`, `title`, `body`; ID equals `1` |
-| TC-002 | Get the list of posts | API is reachable | Send `GET /posts` | `200 OK`; response is a non-empty array; each item has the expected post fields |
-| TC-003 | Create a post | API is reachable | Send `POST /posts` with valid JSON containing `title`, `body`, `userId` | `201 Created`; response contains submitted fields and an ID; persistence is not expected |
-| TC-004 | Request a non-existing post | API is reachable | Send `GET /posts/999999` | `404 Not Found`; response body is an empty JSON object |
-| TC-005 | Get an existing user | API is reachable | Send `GET /users/1` | `200 OK`; response contains `id`, `name`, `username`, `email`; ID equals `1` |
+| TC-API-001 | Retrieve a post by ID | API is reachable | Send `GET /posts/1` | `200 OK`; JSON response contains `userId`, `id`, `title`, `body`; fields have expected types; `id = 1` |
+| TC-API-002 | Retrieve all posts | API is reachable | Send `GET /posts` | `200 OK`; response is a non-empty array; post objects contain expected fields |
+| TC-API-003 | Create a post | API is reachable | Send `POST /posts` with a JSON body containing `title`, `body`, and `userId` | `201 Created`; response contains the submitted values and a numeric `id` |
+| TC-API-004 | Request a non-existent post | API is reachable | Send `GET /posts/999999` | `404 Not Found`; response body is an empty JSON object |
+| TC-API-005 | Retrieve a user by ID | API is reachable | Send `GET /users/1` | `200 OK`; response contains `id`, `name`, `username`, and `email`; `id = 1`; field types are valid |
 
-## Execution record
+## Test Data
 
-Fill this section after running the collection in Postman.
+### TC-API-001
+- Request: `GET /posts/1`
+- Expected post ID: `1`
 
-| Date | Collection run | Passed | Failed | Notes |
-|---|---|---:|---:|---|
-| TBD | Not run yet | — | — | Record actual results after execution |
+### TC-API-003
+```json
+{
+  "title": "API testing portfolio",
+  "body": "Created by a Postman test",
+  "userId": 1
+}
+```
+
+### TC-API-004
+- Request: `GET /posts/999999`
+- Purpose: verify handling of a non-existent resource.
+
+## Scope Notes
+
+- These test cases cover basic positive and negative API scenarios.
+- The collection validates responses; it does not test authentication, rate limiting, load, or a production database.
+- JSONPlaceholder simulates `POST` creation and does not persist the created resource.
