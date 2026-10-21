@@ -1,6 +1,6 @@
 # Postman API Testing
 
-A portfolio project demonstrating REST API testing with Postman and JavaScript.
+A project demonstrating REST API testing with Postman and JavaScript.
 
 ## Overview
 
