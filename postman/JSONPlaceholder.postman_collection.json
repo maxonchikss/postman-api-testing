@@ -1,0 +1,263 @@
+{
+  "info": {
+    "_postman_id": "7f0f4c7b-9f4e-4f9b-aea3-5d63d7ef42b1",
+    "name": "JSONPlaceholder API Testing",
+    "description": "Manual QA portfolio project: REST API checks, response validation, and JavaScript tests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://jsonplaceholder.typicode.com"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 - Posts",
+      "item": [
+        {
+          "name": "GET - Get post by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/posts/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "posts",
+                "1"
+              ]
+            },
+            "description": "Positive scenario: retrieve an existing post."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response is JSON', function () {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "",
+                  "const post = pm.response.json();",
+                  "pm.test('Post contains required fields', function () {",
+                  "    pm.expect(post).to.have.all.keys('userId', 'id', 'title', 'body');",
+                  "});",
+                  "pm.test('Post fields have expected data types', function () {",
+                  "    pm.expect(post.userId).to.be.a('number');",
+                  "    pm.expect(post.id).to.be.a('number');",
+                  "    pm.expect(post.title).to.be.a('string');",
+                  "    pm.expect(post.body).to.be.a('string');",
+                  "});",
+                  "pm.test('Returned post ID matches requested ID', function () {",
+                  "    pm.expect(post.id).to.eql(1);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET - Get all posts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/posts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "posts"
+              ]
+            },
+            "description": "Retrieve the posts collection and validate its structure."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response is a non-empty array', function () {",
+                  "    const data = pm.response.json();",
+                  "    pm.expect(data).to.be.an('array').that.is.not.empty;",
+                  "});",
+                  "pm.test('Each post has required fields', function () {",
+                  "    pm.response.json().forEach(function (post) {",
+                  "        pm.expect(post).to.have.all.keys('userId', 'id', 'title', 'body');",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "POST - Create post (simulated)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"QA portfolio test post\",\n  \"body\": \"Created by a Postman API test\",\n  \"userId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/posts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "posts"
+              ]
+            },
+            "description": "JSONPlaceholder simulates resource creation; data is not persisted."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201 Created', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test('Response contains submitted fields', function () {",
+                  "    const data = pm.response.json();",
+                  "    pm.expect(data.title).to.eql('QA portfolio test post');",
+                  "    pm.expect(data.body).to.eql('Created by a Postman API test');",
+                  "    pm.expect(data.userId).to.eql(1);",
+                  "});",
+                  "pm.test('Response contains a generated ID', function () {",
+                  "    pm.expect(pm.response.json().id).to.exist;",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GET - Non-existing post ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/posts/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "posts",
+                "999999"
+              ]
+            },
+            "description": "Negative scenario: verify behavior for a non-existing resource."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 404 Not Found', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "pm.test('Response body is empty JSON object', function () {",
+                  "    pm.expect(pm.response.json()).to.eql({});",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 - Users",
+      "item": [
+        {
+          "name": "GET - Get user by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "1"
+              ]
+            },
+            "description": "Positive scenario: retrieve an existing user and validate key fields."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const user = pm.response.json();",
+                  "pm.test('User has expected fields', function () {",
+                  "    pm.expect(user).to.have.property('id', 1);",
+                  "    pm.expect(user).to.have.property('name').that.is.a('string');",
+                  "    pm.expect(user).to.have.property('username').that.is.a('string');",
+                  "    pm.expect(user).to.have.property('email').that.is.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
